@@ -2,20 +2,31 @@
   "name": "redux-react-whiteapp",
   "version": "0.1.0",
   "private": true,
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run build:check"
+    }
+  },
   "dependencies": {
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-redux": "^7.2.0",
     "react-scripts": "3.4.0",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0",
-    "typescript": "^3.7.5"
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "npm-run-all --parallel prettier:watch react:start",
+    "build:check": "npm-run-all lint:check prettier:check",
+    "build": "npm-run-all build:check react:build",
+    "react:build": "react-scripts build",
+    "react:test": "react-scripts test",
+    "react:eject": "react-scripts eject",
+    "react:start": "react-scripts start",
+    "lint:check": "tslint 'src/**/*.{ts,tsx}'",
+    "prettier:check": "prettier --check src/**/*.{ts,tsx,json,css}",
+    "prettier:write": "prettier --write src/**/*.{ts,tsx,json,css}",
+    "prettier:watch": "onchange 'src/**/*.{ts,tsx,json,css}' -- prettier --write {{changed}}"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -43,6 +54,14 @@
     "@types/react-redux": "^7.1.7",
     "@types/redux": "^3.6.0",
     "@types/redux-logger": "^3.0.7",
-    "@types/redux-thunk": "^2.1.0"
+    "@types/redux-thunk": "^2.1.0",
+    "husky": "^4.2.3",
+    "npm-run-all": "^4.1.5",
+    "onchange": "^6.1.0",
+    "prettier": "^1.19.1",
+    "tslint": "^6.0.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.1.0",
+    "typescript": "^3.7.5"
   }
 }
