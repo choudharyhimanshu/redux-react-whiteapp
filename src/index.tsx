@@ -7,7 +7,8 @@ import * as serviceWorker from './serviceWorker';
 
 import App from './App';
 
-import './index.css';
+import 'react-toastify/dist/ReactToastify.css';
+import 'semantic-ui-css/semantic.min.css';
 
 ReactDOM.render(
     <Provider store={store}>
