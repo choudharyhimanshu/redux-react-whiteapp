@@ -1,19 +1,10 @@
-export enum EExampleReducerActionType {
-    INCREMENT,
-    DECREMENT
-}
-
-export interface IExampleReducerActionData {
-    changeBy: number;
-}
+import {
+    IExampleReducerAction,
+    EExampleReducerActionType
+} from '../actions/example.action';
 
 export interface IExampleReducerState {
     counter: number;
-}
-
-export interface IExampleReducerAction {
-    type: EExampleReducerActionType;
-    data: IExampleReducerActionData;
 }
 
 const defaultState = { counter: 0 };
@@ -22,12 +13,22 @@ export default (
     state: IExampleReducerState = defaultState,
     action: IExampleReducerAction
 ) => {
-    switch (action.type) {
-        case EExampleReducerActionType.INCREMENT:
-            return { ...state, counter: state.counter + action.data.changeBy };
-        case EExampleReducerActionType.DECREMENT:
-            return { ...state, counter: state.counter - action.data.changeBy };
-        default:
-            return state;
+    if (action.data) {
+        switch (action.type) {
+            case EExampleReducerActionType.INCREMENT:
+                return {
+                    ...state,
+                    counter: state.counter + action.data.changeBy
+                };
+            case EExampleReducerActionType.DECREMENT:
+                return {
+                    ...state,
+                    counter: state.counter - action.data.changeBy
+                };
+            default:
+                return state;
+        }
+    } else {
+        return state;
     }
 };

@@ -1,23 +1,23 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import store, { IRootReducerState } from '../configureStore';
-import { EExampleReducerActionType } from '../reducers/example.reducer';
+import { IRootReducerState } from '../store/configureStore';
+import { ThunkDispatch } from 'redux-thunk';
+import {
+    increaseCounter,
+    IExampleReducerAction
+} from '../actions/example.action';
 
 export interface IExampleComponentProps {
     counter: number;
+    handleCounterIncrease: (increaseBy: number) => void;
 }
 
 class ExampleComponent extends React.Component<IExampleComponentProps> {
     componentDidMount() {
         setInterval(() => {
-            store.dispatch({
-                type: EExampleReducerActionType.INCREMENT,
-                data: {
-                    changeBy: 1
-                }
-            });
-        }, 1000);
+            this.props.handleCounterIncrease(1);
+        }, 2000);
     }
 
     render() {
@@ -27,10 +27,18 @@ class ExampleComponent extends React.Component<IExampleComponentProps> {
     }
 }
 
-const mapStateToProps = (state: IRootReducerState): IExampleComponentProps => {
+const mapStateToProps = (state: IRootReducerState) => {
     return {
         counter: state.example.counter
     };
 };
 
-export default connect(mapStateToProps)(ExampleComponent);
+const mapDispatcherToProps = (
+    dispatch: ThunkDispatch<IRootReducerState, {}, IExampleReducerAction>
+) => {
+    return {
+        handleCounterIncrease: dispatch(increaseCounter)
+    };
+};
+
+export default connect(mapStateToProps, mapDispatcherToProps)(ExampleComponent);

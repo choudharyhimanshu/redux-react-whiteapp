@@ -9,7 +9,7 @@ import { createLogger } from 'redux-logger';
 
 import exampleReducer, {
     IExampleReducerState
-} from './reducers/example.reducer';
+} from '../reducers/example.reducer';
 
 export interface IRootReducerState {
     example: IExampleReducerState;
@@ -25,7 +25,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const store = createStore(
-    combineReducers({
+    combineReducers<IRootReducerState>({
         example: exampleReducer
     }),
     applyMiddleware(...middlewares)
