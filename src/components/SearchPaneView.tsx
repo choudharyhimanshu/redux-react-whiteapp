@@ -123,7 +123,7 @@ function SearchPaneView(props: ISearchPaneViewProps) {
                             widescreen={5}
                             computer={5}
                             largeScreen={5}
-                            className="transition-width sm-pt-5 sm-pb-5"
+                            className="animate-visibility sm-pt-5 sm-pb-5"
                         >
                             <SearchItemView
                                 searchItem={selectedItem}
