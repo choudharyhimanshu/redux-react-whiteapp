@@ -1,27 +1,27 @@
 import { Dispatch } from 'react';
 
-export enum EExampleReducerActionType {
+export enum EExampleActionType {
     INCREMENT = 'EXAMPLE_INCREMENT',
     DECREMENT = 'EXAMPLE_DECREMENT',
     PROCESSING = 'EXAMPLE_PROCESSING'
 }
 
-export interface IExampleReducerActionData {
+export interface IExampleActionData {
     changeBy: number;
 }
 
-export interface IExampleReducerAction {
-    type: EExampleReducerActionType;
-    data?: IExampleReducerActionData;
+export interface IExampleAction {
+    type: EExampleActionType;
+    data?: IExampleActionData;
 }
 
-export const increaseCounter = (dispatch: Dispatch<IExampleReducerAction>) => {
+export const increaseCounter = (dispatch: Dispatch<IExampleAction>) => {
     return async (increaseBy: number) => {
-        dispatch({ type: EExampleReducerActionType.PROCESSING });
+        dispatch({ type: EExampleActionType.PROCESSING });
         setTimeout(
             () =>
                 dispatch({
-                    type: EExampleReducerActionType.INCREMENT,
+                    type: EExampleActionType.INCREMENT,
                     data: { changeBy: increaseBy }
                 }),
             1000

@@ -10,9 +10,11 @@ import { createLogger } from 'redux-logger';
 import exampleReducer, {
     IExampleReducerState
 } from '../reducers/example.reducer';
+import searchReducer, { ISearchReducerState } from '../reducers/search.reducer';
 
 export interface IRootReducerState {
     example: IExampleReducerState;
+    search: ISearchReducerState;
 }
 
 const middlewares: Middleware[] = [thunk];
@@ -26,7 +28,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 const store = createStore(
     combineReducers<IRootReducerState>({
-        example: exampleReducer
+        example: exampleReducer,
+        search: searchReducer
     }),
     applyMiddleware(...middlewares)
 );

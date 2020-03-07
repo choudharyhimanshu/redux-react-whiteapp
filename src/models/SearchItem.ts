@@ -1,0 +1,5 @@
+export interface ISearchItem {
+    id: string;
+    name: string;
+    tags: string[];
+}

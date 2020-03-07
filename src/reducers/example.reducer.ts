@@ -1,7 +1,4 @@
-import {
-    IExampleReducerAction,
-    EExampleReducerActionType
-} from '../actions/example.action';
+import { IExampleAction, EExampleActionType } from '../actions/example.action';
 
 export interface IExampleReducerState {
     counter: number;
@@ -9,18 +6,18 @@ export interface IExampleReducerState {
 
 const defaultState = { counter: 0 };
 
-export default (
+function ExampleReducer(
     state: IExampleReducerState = defaultState,
-    action: IExampleReducerAction
-) => {
+    action: IExampleAction
+) {
     if (action.data) {
         switch (action.type) {
-            case EExampleReducerActionType.INCREMENT:
+            case EExampleActionType.INCREMENT:
                 return {
                     ...state,
                     counter: state.counter + action.data.changeBy
                 };
-            case EExampleReducerActionType.DECREMENT:
+            case EExampleActionType.DECREMENT:
                 return {
                     ...state,
                     counter: state.counter - action.data.changeBy
@@ -31,4 +28,6 @@ export default (
     } else {
         return state;
     }
-};
+}
+
+export default ExampleReducer;

@@ -1,13 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Statistic } from 'semantic-ui-react';
 import { ThunkDispatch } from 'redux-thunk';
+import { Statistic } from 'semantic-ui-react';
 
 import { IRootReducerState } from '../store/configureStore';
-import {
-    increaseCounter,
-    IExampleReducerAction
-} from '../actions/example.action';
+import { increaseCounter, IExampleAction } from '../actions/example.action';
 
 export interface IExampleComponentProps {
     counter: number;
@@ -47,12 +44,12 @@ const mapStateToProps = (state: IRootReducerState) => {
     };
 };
 
-const mapDispatcherToProps = (
-    dispatch: ThunkDispatch<IRootReducerState, {}, IExampleReducerAction>
+const mapDispatchToProps = (
+    dispatch: ThunkDispatch<IRootReducerState, {}, IExampleAction>
 ) => {
     return {
         handleCounterIncrement: dispatch(increaseCounter)
     };
 };
 
-export default connect(mapStateToProps, mapDispatcherToProps)(ExampleComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(ExampleComponent);
