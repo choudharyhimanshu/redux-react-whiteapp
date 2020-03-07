@@ -4,12 +4,11 @@ import { ISearchAction, ESearchActionType } from '../actions/search.action';
 export interface ISearchReducerState {
     isLoading: boolean;
     results?: ISearchItem[];
-    errorMessage: string;
+    errorMessage?: string;
 }
 
 const defaultState: ISearchReducerState = {
-    isLoading: false,
-    errorMessage: ''
+    isLoading: false
 };
 
 function SearchReducer(

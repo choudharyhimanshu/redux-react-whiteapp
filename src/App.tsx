@@ -9,6 +9,7 @@ import SearchContainer from './containers/SearchContainer';
 import Navbar from './components/common/Navbar';
 
 import './css/helper.css';
+import './App.css';
 
 class App extends React.Component<{}> {
     constructor(props: {}) {

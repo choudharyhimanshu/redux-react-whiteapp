@@ -24,7 +24,7 @@ function SearchForm(props: ISearchFormProps) {
     return (
         <Form onSubmit={handleFormSubmit}>
             <Form.Group>
-                <Form.Field inline width={5}>
+                <Form.Field inline width={4}>
                     <Input
                         label="Name"
                         placeholder="Enter name to search.."
@@ -32,7 +32,7 @@ function SearchForm(props: ISearchFormProps) {
                         onChange={event => setName(event.target.value)}
                     />
                 </Form.Field>
-                <Form.Button disabled={isSearching}>
+                <Form.Button disabled={isSearching} className="sm-mt-1">
                     <Icon name="search" />
                     Search
                 </Form.Button>

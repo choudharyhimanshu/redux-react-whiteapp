@@ -1,11 +1,19 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Grid, Loader, Header, Icon, Card } from 'semantic-ui-react';
+import {
+    Grid,
+    Loader,
+    Header,
+    Icon,
+    Responsive,
+    Modal
+} from 'semantic-ui-react';
 
 import { ISearchItem } from '../models/SearchItem';
 import { IRootReducerState } from '../store/configureStore';
 import SearchForm from './SearchForm';
 import SearchCard from './SearchCard';
+import SearchItemView from './SearchItemView';
 
 export interface ISearchPaneViewProps {
     isLoading: boolean;
@@ -16,13 +24,24 @@ export interface ISearchPaneViewProps {
 function SearchPaneView(props: ISearchPaneViewProps) {
     const { isLoading, errorMessage, results } = props;
 
+    const [selectedItem, setSelectedItem] = React.useState<ISearchItem>();
+
     return (
-        <Grid divided className="pt-2 pb-2">
-            <Grid.Column width={16}>
-                <Grid.Row>
+        <Grid className="pt-2 pb-2">
+            <Grid.Row>
+                <Grid.Column>
                     <SearchForm />
-                </Grid.Row>
-                <Grid.Row>
+                </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+                <Grid.Column
+                    mobile={16}
+                    tablet={16}
+                    widescreen={selectedItem ? 11 : 16}
+                    computer={selectedItem ? 11 : 16}
+                    largeScreen={selectedItem ? 11 : 16}
+                    className="transition-width"
+                >
                     {isLoading ? (
                         <Loader
                             active
@@ -42,14 +61,24 @@ function SearchPaneView(props: ISearchPaneViewProps) {
                                 No results found.
                             </Header>
                         ) : (
-                            <Card.Group className="pt-5 pb-5">
+                            <Grid>
                                 {results.map(result => (
-                                    <SearchCard
-                                        key={result.id}
-                                        searchItem={result}
-                                    />
+                                    <Grid.Column
+                                        mobile={16}
+                                        tablet={8}
+                                        computer={4}
+                                    >
+                                        <SearchCard
+                                            key={result.id}
+                                            searchItem={result}
+                                            onItemSelect={setSelectedItem}
+                                            isSelected={
+                                                selectedItem?.id === result.id
+                                            }
+                                        />
+                                    </Grid.Column>
                                 ))}
-                            </Card.Group>
+                            </Grid>
                         )
                     ) : (
                         errorMessage && (
@@ -68,14 +97,53 @@ function SearchPaneView(props: ISearchPaneViewProps) {
                             </Header>
                         )
                     )}
-                </Grid.Row>
-            </Grid.Column>
+                </Grid.Column>
+                {selectedItem && (
+                    <>
+                        <Responsive
+                            as={Modal}
+                            maxWidth={991}
+                            centered={false}
+                            open
+                        >
+                            <Modal.Content>
+                                <SearchItemView
+                                    searchItem={selectedItem}
+                                    onViewClose={() =>
+                                        setSelectedItem(undefined)
+                                    }
+                                />
+                            </Modal.Content>
+                        </Responsive>
+                        <Responsive
+                            minWidth={992}
+                            as={Grid.Column}
+                            mobile={16}
+                            tablet={16}
+                            widescreen={5}
+                            computer={5}
+                            largeScreen={5}
+                            className="transition-width sm-pt-5 sm-pb-5"
+                        >
+                            <SearchItemView
+                                searchItem={selectedItem}
+                                onViewClose={() => setSelectedItem(undefined)}
+                            />
+                        </Responsive>
+                    </>
+                )}
+            </Grid.Row>
         </Grid>
     );
 }
 
 const mapStateToProps = (state: IRootReducerState) => {
-    return { ...state.search };
+    return {
+        errorMessage: state.search.errorMessage
+            ? state.search.errorMessage
+            : '',
+        ...state.search
+    };
 };
 
 export default connect(mapStateToProps)(SearchPaneView);

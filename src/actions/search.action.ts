@@ -1,7 +1,9 @@
 import { Dispatch } from 'react';
+import to from 'await-to-js';
 
 import { ISearchRequest } from '../models/SearchRequest';
 import { ISearchItem } from '../models/SearchItem';
+import searchService from '../services/search.service';
 
 export enum ESearchActionType {
     FETCHING = 'SEARCH_FETCHING',
@@ -10,7 +12,7 @@ export enum ESearchActionType {
 }
 
 export interface ISearchActionData {
-    searchResults: ISearchItem[];
+    searchResults?: ISearchItem[];
     errorMessage: string;
 }
 
@@ -25,18 +27,21 @@ export const fetchItems = (dispatch: Dispatch<ISearchAction>) => {
             type: ESearchActionType.FETCHING,
             data: { searchResults: [], errorMessage: '' }
         });
-        setTimeout(
-            () =>
-                dispatch({
-                    type: ESearchActionType.SUCCESS,
-                    data: {
-                        searchResults: [
-                            { id: '123', name: 'foobar', tags: [] }
-                        ],
-                        errorMessage: 'buyaka'
-                    }
-                }),
-            1000
+
+        const [error, response] = await to<ISearchItem[]>(
+            searchService.fetchAllItems()
         );
+
+        if (error) {
+            dispatch({
+                type: ESearchActionType.ERROR,
+                data: { errorMessage: error.toString() }
+            });
+        } else {
+            dispatch({
+                type: ESearchActionType.SUCCESS,
+                data: { searchResults: response, errorMessage: '' }
+            });
+        }
     };
 };

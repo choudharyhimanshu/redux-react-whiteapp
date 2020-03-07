@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Menu, Icon } from 'semantic-ui-react';
+import { Container, Menu, Icon, Responsive } from 'semantic-ui-react';
 
 const Navbar = () => {
     return (
         <Menu fixed="top">
             <Container fluid>
-                <Menu.Item className="item">
+                <Responsive as={Menu.Item} {...Responsive.onlyComputer}>
                     <Icon name="code" color="blue" />
                     <strong>FOOBAR</strong>
-                </Menu.Item>
+                </Responsive>
                 <Link className="item" to="/">
                     <Icon name="home" />
                     Home
@@ -22,10 +22,14 @@ const Navbar = () => {
                     <Icon name="search" />
                     Search
                 </Link>
-                <Menu.Item position="right">
+                <Responsive
+                    as={Menu.Item}
+                    position="right"
+                    {...Responsive.onlyComputer}
+                >
                     <Icon name="info" />
                     About
-                </Menu.Item>
+                </Responsive>
             </Container>
         </Menu>
     );
