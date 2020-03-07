@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, HashRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { TOAST_CONFIG } from './constants';
@@ -24,7 +24,7 @@ class App extends React.Component<{}> {
 
     render() {
         return (
-            <BrowserRouter>
+            <HashRouter>
                 <Navbar />
 
                 <Switch>
@@ -34,7 +34,7 @@ class App extends React.Component<{}> {
 
                     <Redirect to="/" />
                 </Switch>
-            </BrowserRouter>
+            </HashRouter>
         );
     }
 }
